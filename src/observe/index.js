@@ -1,21 +1,43 @@
+import {newArrayProto} from  "./array"
 
 export function observe(data){
    if(typeof data !== 'object' || data == null){
      return;
    }
-
+  
+if(data.__ob__ instanceof Observer){
+    return data.__ob__
+}
    return new Observer(data)
 }
 
 
 class Observer{
     constructor(data){
-          this.walk(data)
+
+      Object.defineProperty(data,'__ob__',{
+        value:this,
+        enumerable:false //不可枚举
+      })
+      if(Array.isArray(data)){
+        // data.__ob__ = this
+        //重写数组方法 7个变异  
+        data.__proto__ = newArrayProto
+          this.observeArray(data)
+      }else{
+        this.walk(data)
+      }
+      
     }
 
     walk(data){
       //重新定义属性
       Object.keys(data).forEach(key=>defineReactive(data,key,data[key]))
+    }
+    observeArray(data){
+      data.forEach(item=>{
+        observe(item)
+      })
     }
 
 }
@@ -28,8 +50,8 @@ export function defineReactive(target,key,value){
       return value
     },
     set(newValue){
-      console.log('设置值');
       if(value === newValue)return
+      observe(newValue) 
       value = newValue
     }
   })
