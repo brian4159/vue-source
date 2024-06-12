@@ -8,10 +8,17 @@
 </head>
 
 <body>
+    <div id="app">
+        <div style="color: red;">
+            {{name}}hello
+        </div>
+        <span>{{age}}</span>
+    </div>
     <script src="vue.js"></script>
     <script>
 
         const vm = new Vue({
+            el:'#app',
             data(){
                 return {
                     name: 'wv',
@@ -22,11 +29,11 @@
                     },
                     arr:[1,2,2,{a:1}]
                 }
-            }
+            },
+      
         })
         // vm.address = {name:1}
-        vm.arr.push(3)
-        console.log(vm.arr);
+     
     </script>
 </body>
 
