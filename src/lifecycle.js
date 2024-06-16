@@ -1,5 +1,5 @@
 import { createElementNode, createTextNode } from "./vDom"
-
+import { Watcher } from "./observe/watcher" 
 function patchProps(el,props){
   for(let key in props){
     if(key === 'style'){
@@ -68,6 +68,11 @@ export function initLifeCycle(Vue){
 }
 export function mountComponent(vm,el){
     vm.$el = el 
+    const updateComponet = ()=>{
         vm._update(vm._render())
+    }
 
+    let watcher = new Watcher(vm,updateComponet)
+    console.log(watcher); 
+  
 }

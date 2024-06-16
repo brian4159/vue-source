@@ -1,5 +1,5 @@
 import {newArrayProto} from  "./array"
-
+import Dep from './dep'
 export function observe(data){
    if(typeof data !== 'object' || data == null){
      return;
@@ -44,9 +44,13 @@ class Observer{
 
 export function defineReactive(target,key,value){
   observe(value) //对所有的对象进行属性劫持
+  let dep =  new Dep()
   Object.defineProperty(target,key,{
     get(){
-      console.log('取值');
+      if(dep && Dep.target){
+        dep.addWatch()
+        
+      }
       return value
     },
     set(newValue){
@@ -55,4 +59,5 @@ export function defineReactive(target,key,value){
       value = newValue
     }
   })
+
 }
