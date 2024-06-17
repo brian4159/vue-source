@@ -30,6 +30,10 @@ methods.forEach(method=>{
       if(inserted){
             this.__ob__.observeArray(this)
       }
+
+
+      //更新页面
+
       return result
     }
 

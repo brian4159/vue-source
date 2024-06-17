@@ -10,7 +10,7 @@
 <body>
     <div id="app">
         <div style="color: red;">
-            {{name}}hello{{name}}
+            {{name}}__{{name }}__ {{name }}
         </div>
         <span>{{age}}</span>
     </div>
@@ -18,7 +18,7 @@
     <script>
 
         const vm = new Vue({
-            el:'#app',
+        
             data(){
                 return {
                     name: 'wv',
@@ -27,12 +27,18 @@
                         aaa:'aa',
                         bb:'bb'
                     },
-                    arr:[1,2,2,{a:1}]
+                 
                 }
             },
       
         })
-        // vm.address = {name:1}
+     vm.$mount('#app')
+        
+     vm.name  = 1
+     vm.$nextTick(()=>{
+    console.log(app.innerHTML);
+     })
+
      
     </script>
 </body>

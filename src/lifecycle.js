@@ -32,8 +32,11 @@ function patch(oldVnode,vnode){
         const elm = oldVnode
         const parentELe  = elm.parentNode
         let newEle = createEle(vnode)
-        parentELe.insertBefore(newEle,elm.nextSibling)
-        parentELe.removeChild(elm)
+        
+        parentELe &&  parentELe.insertBefore(newEle,elm.nextSibling)
+        parentELe && parentELe.removeChild(elm)
+
+        return  newEle
     }else{
 
     }
@@ -46,7 +49,7 @@ export function initLifeCycle(Vue){
         const vm = this
         const  el = vm.$el
 
-        patch(el,vnode)
+        vm.$el  = patch(el,vnode) //把最新的虚拟doom赋值给元素
     }
   
     Vue.prototype._c = function(){
@@ -73,6 +76,5 @@ export function mountComponent(vm,el){
     }
 
     let watcher = new Watcher(vm,updateComponet)
-    console.log(watcher); 
   
 }

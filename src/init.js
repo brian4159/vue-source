@@ -1,5 +1,6 @@
 import { compileToFunction } from "./compiler";
 import { mountComponent } from "./lifecycle";
+import { nextTick } from "./observe/watcher";
 import { initState } from "./state";
 
 
@@ -44,5 +45,6 @@ export function initMixin(Vue) { //vue实例的初始化方法
        
         //runtime运行时不包含模板编译，整个编译时打包的时候通过loader来转义.vue文件
     }
+    Vue.prototype.$nextTick = nextTick
 }
 
