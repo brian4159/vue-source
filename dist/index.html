@@ -10,7 +10,7 @@
 <body>
     <div id="app">
         <div style="color: red;">
-            {{name}}__{{name }}__ {{name }}
+            {{arr}}
         </div>
         <span>{{age}}</span>
     </div>
@@ -27,17 +27,20 @@
                         aaa:'aa',
                         bb:'bb'
                     },
-                 
+                    arr:[1,2,2,{a:1},[1,5,6]],
+                    a:{a:1}
                 }
             },
       
         })
      vm.$mount('#app')
+
+
+     setTimeout(()=>[
+     vm.arr[4].push(100,100,200)
+     ],500)
+
         
-     vm.name  = 1
-     vm.$nextTick(()=>{
-    console.log(app.innerHTML);
-     })
 
      
     </script>

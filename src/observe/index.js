@@ -14,6 +14,9 @@ if(data.__ob__ instanceof Observer){
 
 class Observer{
     constructor(data){
+     //给每个对象增加依赖收集
+        this.dep = new Dep()
+
 
       Object.defineProperty(data,'__ob__',{
         value:this,
@@ -36,20 +39,36 @@ class Observer{
     }
     observeArray(data){
       data.forEach(item=>{
-        observe(item)
+       observe(item)
       })
     }
 
 }
 
+function dependArray(data){
+     for(let i = 0;i <data.length;i++){
+      let currentItem = data[i]
+      currentItem.__ob__  &&  currentItem.__ob__.dep.addWatch() 
+      if(Array.isArray(currentItem)){
+        dependArray(currentItem)
+      }
+     }
+}
+
 export function defineReactive(target,key,value){
-  observe(value) //对所有的对象进行属性劫持
+  
+  let childObe  =   observe(value) //对所有的对象进行属性劫持
   let dep =  new Dep()
   Object.defineProperty(target,key,{
     get(){
       if(dep && Dep.target){
         dep.addWatch()
-        
+        if(childObe){
+          childObe.dep.addWatch()   
+          if(Array.isArray(value)){
+              dependArray(value)
+          }        
+        }
       }
       return value
     },
@@ -57,6 +76,7 @@ export function defineReactive(target,key,value){
       if(value === newValue)return
       observe(newValue) 
       dep.notify()
+    
       value = newValue
     }
   })

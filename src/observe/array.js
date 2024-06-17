@@ -33,7 +33,7 @@ methods.forEach(method=>{
 
 
       //更新页面
-
+      this.__ob__.dep.notify()
       return result
     }
 
