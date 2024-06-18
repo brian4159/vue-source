@@ -10,9 +10,9 @@
 <body>
     <div id="app">
         <div style="color: red;">
-            {{arr}}
+            {{fullName}}
         </div>
-        <span>{{age}}</span>
+     
     </div>
     <script src="vue.js"></script>
     <script>
@@ -27,19 +27,21 @@
                         aaa:'aa',
                         bb:'bb'
                     },
-                    arr:[1,2,2,{a:1},[1,5,6]],
-                    a:{a:1}
+                   a:'王',
+                   b:'威'
                 }
             },
-      
+            computed:{
+                fullName(){
+                    return this.a +this.b
+                }
+            }
         })
      vm.$mount('#app')
 
-
-     setTimeout(()=>[
-     vm.arr[4].push(100,100,200)
-     ],500)
-
+   setTimeout(()=>{
+        
+   })
         
 
      

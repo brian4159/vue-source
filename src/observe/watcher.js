@@ -2,12 +2,16 @@ import Dep from './dep'
 
 let id = 0
 export class Watcher {
-    constructor(vm, fn) {
+    constructor(vm, fn,options) {
         this.id = id++
+        this.renderWatcher = options
         this.getter = fn
         this.deps = []
         this.depId = new Set()
-        this.get()
+        this.lazy = options.lazy
+        this.dirty = this.lazy
+
+        this.lazy ?  undefined : this.get()
     }
     get() {
         Dep.target = this
