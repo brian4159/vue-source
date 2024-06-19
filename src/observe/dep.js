@@ -20,16 +20,20 @@ class Dep {
 Dep.target = null 
  
 let stack =[]
+
 export function pushTarget(watcher){
+ 
     Dep.target = watcher
     stack.push(watcher)
+
+  
 }
 
 export function popTarget(){
+      
     stack.pop()
-
     Dep.target = stack[stack.length-1]
-    console.log( Dep.target,' Dep.target');
+
 }
 
 export default Dep

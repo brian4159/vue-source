@@ -44,6 +44,7 @@ function initComputed(vm) {
         //    const getter =   typeof userref == 'function'?userref:userref.get
         let fn = typeof userref == 'function' ? userref : userref.get
         //     const setter = userref.set 
+ 
         wathcers[key] =  new Watcher(vm, fn, { lazy: true })
         defineComputed(vm, key, userref)
     }
@@ -64,11 +65,14 @@ function creatComputedGetter(key){
     return function (){
         const watcher =  this._computedWatchers[key]
         if(watcher.dirty){
+      
             watcher.evaluate()
         }
         if(Dep.target){
-            console.log(Dep.target);
+       
+                watcher.depend()
         }
+     
         return watcher.value
     }
 }

@@ -74,7 +74,7 @@ export function mountComponent(vm,el){
     const updateComponet = ()=>{
         vm._update(vm._render())
     }
-
+    console.log(2);
     let watcher = new Watcher(vm,updateComponet)
-  
+    
 }

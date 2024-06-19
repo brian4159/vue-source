@@ -14,8 +14,8 @@ export function initMixin(Vue) { //vue实例的初始化方法
         //初始化状态
         initState(vm)
 
-
         if (options.el) {
+       
             vm.$mount(options.el)
         }
     }
@@ -32,19 +32,20 @@ export function initMixin(Vue) { //vue实例的初始化方法
             } else {
                 if (el) {
                     template = options.template
-                 
+
                 }
             }
-            if(template){
-                    const render =compileToFunction(template)
-                    options.render=render   
-                   
+            if (template) {
+                const render = compileToFunction(template)
+                options.render = render
+
             }
         }
+     
         mountComponent(vm, el)
-       
+
         //runtime运行时不包含模板编译，整个编译时打包的时候通过loader来转义.vue文件
     }
-    Vue.prototype.$nextTick = nextTick
+  
 }
 

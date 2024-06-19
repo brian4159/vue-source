@@ -14,10 +14,10 @@ export class Watcher {
         this.lazy ?  undefined : this.get()
     }
     get() {
+      
        pushTarget(this)
         let value =  this.getter.call(this.vm)
         popTarget()
-      
         return  value
     }
 
@@ -41,11 +41,15 @@ export class Watcher {
 
     }
     evaluate(){
+ 
         this.value = this.get()
         this.dirty = false
     }
     depend(){
-
+            let i =  this.deps.length
+            while(i--){
+                this.deps[i].addWatch()
+            }
     }
     run() {
         this.get()
