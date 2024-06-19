@@ -1,3 +1,4 @@
+import Dep from "./observe/dep";
 import { observe } from "./observe/index";
 import { Watcher } from "./observe/watcher";
 
@@ -37,14 +38,16 @@ function initData(vm) {
 }
 function initComputed(vm) {
     const computed = vm.$options.computed
+    const wathcers = vm._computedWatchers = {}
     for (let key in computed) {
         let userref = computed[key]
         //    const getter =   typeof userref == 'function'?userref:userref.get
         let fn = typeof userref == 'function' ? userref : userref.get
         //     const setter = userref.set 
-        new Watcher(vm, fn, { lazy: true })
+        wathcers[key] =  new Watcher(vm, fn, { lazy: true })
         defineComputed(vm, key, userref)
     }
+   
 }
 
 function defineComputed(vm, key, userref) {
@@ -52,7 +55,20 @@ function defineComputed(vm, key, userref) {
     const setter = userref.set
 
     Object.defineProperty(vm, key, {
-        get: getter,
+        get: creatComputedGetter(key),
         set: setter
     })
+}
+
+function creatComputedGetter(key){
+    return function (){
+        const watcher =  this._computedWatchers[key]
+        if(watcher.dirty){
+            watcher.evaluate()
+        }
+        if(Dep.target){
+            console.log(Dep.target);
+        }
+        return watcher.value
+    }
 }

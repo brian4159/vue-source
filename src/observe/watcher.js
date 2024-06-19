@@ -1,22 +1,24 @@
-import Dep from './dep'
+import Dep, { popTarget, pushTarget } from './dep'
 
 let id = 0
 export class Watcher {
     constructor(vm, fn,options) {
         this.id = id++
+        this.vm= vm
         this.renderWatcher = options
         this.getter = fn
         this.deps = []
         this.depId = new Set()
-        this.lazy = options.lazy
+        this.lazy = options?.lazy
         this.dirty = this.lazy
-
         this.lazy ?  undefined : this.get()
     }
     get() {
-        Dep.target = this
-        this.getter()
-        Dep.target = null
+       pushTarget(this)
+        let value =  this.getter.call(this.vm)
+        popTarget()
+      
+        return  value
     }
 
     addDep(dep) {
@@ -30,12 +32,22 @@ export class Watcher {
 
     }
     update() {
-        queueWatcher(this)
+        if(this.lazy){
+            this.dirty   = true
+        }else{
+            queueWatcher(this)
+        }
+      
 
     }
+    evaluate(){
+        this.value = this.get()
+        this.dirty = false
+    }
+    depend(){
 
+    }
     run() {
-
         this.get()
     }
 }
