@@ -15,7 +15,6 @@ export function initMixin(Vue) { //vue实例的初始化方法
         initState(vm)
 
         if (options.el) {
-       
             vm.$mount(options.el)
         }
     }

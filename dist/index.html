@@ -10,41 +10,43 @@
 <body>
     <div id="app">
         <div style="color: red;">
-            {{fullName}}
+            {{a}}
         </div>
-     
+
     </div>
     <script src="vue.js"></script>
     <script>
 
         const vm = new Vue({
-        
-            data(){
+
+            data() {
                 return {
                     name: 'wv',
                     age: 20,
-                    address:{
-                        aaa:'aa',
-                        bb:'bb'
+                    address: {
+                        aaa: 'aa',
+                        bb: 'bb'
                     },
-                   a:'王',
-                   b:'威'
+                    a: '王',
+                    b: '威'
                 }
             },
-            computed:{
-                fullName(){
-                    return this.a +this.b
+            watch: {
+                'a': function (newVal, oldVal) {
+                    console.log(newVal, oldVal);
                 }
             }
+
+
         })
-     vm.$mount('#app')
+        vm.$mount('#app')
 
-   setTimeout(()=>{
-        vm.a = 11
-   },500)
-        
+           setTimeout(()=>{
+                vm.a = 11
+           },500)
 
-     
+
+
     </script>
 </body>
 

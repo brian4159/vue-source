@@ -1,6 +1,7 @@
 import { parseHTML } from "./parse";
 
 function genProps(attrs) {
+  
     let str = ''// {name,value}
     for (let i = 0; i < attrs.length; i++) {
         let attr = attrs[i];
@@ -71,7 +72,7 @@ export function compileToFunction(template) {
     let code = codegen(ast);
     code = `with(this){return ${code}}`;
     let render = new Function(code); // 根据代码生成render函数
-
+    
     //  _c('div',{id:'app'},_c('div',{style:{color:'red'}},  _v(_s(vm.name)+'hello'),_c('span',undefined,  _v(_s(age))))
 
     return render;

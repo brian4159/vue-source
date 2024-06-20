@@ -11,6 +11,30 @@ export function initState(vm) {
     if (opts.computed) {
         initComputed(vm)
     }
+    if(opts.watch){
+        initWatch(vm)
+    }
+}
+function initWatch(vm){
+    let watch = vm.$options.watch
+        Object.keys(watch).forEach(key => {
+            const  handler = watch[key]
+
+            if(Array.isArray(handler)){
+                for(let i = 0;i<handler.length;i++){
+                    createWatcher(vm,key,handler[i])
+                }
+            }else{
+                createWatcher(vm,key,handler)
+
+            }
+        })
+}
+function createWatcher(vm,key,handler){
+     if(typeof handler == 'string'){
+        handler = vm[handler]
+     }
+     return vm.$watch(key,handler)
 }
 
 function proxy(vm, target, key) {
@@ -62,14 +86,13 @@ function defineComputed(vm, key, userref) {
 }
 
 function creatComputedGetter(key){
+
     return function (){
         const watcher =  this._computedWatchers[key]
         if(watcher.dirty){
-      
             watcher.evaluate()
-        }
+        } 
         if(Dep.target){
-       
                 watcher.depend()
         }
      

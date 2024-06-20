@@ -44,7 +44,6 @@ function patch(oldVnode,vnode){
 
 export function initLifeCycle(Vue){
 
-
     Vue.prototype._update = function(vnode){
         const vm = this
         const  el = vm.$el
@@ -73,8 +72,9 @@ export function mountComponent(vm,el){
     vm.$el = el 
     const updateComponet = ()=>{
         vm._update(vm._render())
+       
     }
-    console.log(2);
+  
     let watcher = new Watcher(vm,updateComponet)
     
 }

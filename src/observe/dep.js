@@ -26,7 +26,6 @@ export function pushTarget(watcher){
     Dep.target = watcher
     stack.push(watcher)
 
-  
 }
 
 export function popTarget(){

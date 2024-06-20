@@ -2,23 +2,31 @@ import Dep, { popTarget, pushTarget } from './dep'
 
 let id = 0
 export class Watcher {
-    constructor(vm, fn,options) {
+    constructor(vm, fn, options,cb) {
         this.id = id++
-        this.vm= vm
+        this.vm = vm
         this.renderWatcher = options
-        this.getter = fn
+        if(typeof fn === 'string'){
+            this.getter = function(){ return vm[fn]}
+        }else{
+            this.getter =  fn
+        }
+        this.cb = cb
+      
         this.deps = []
         this.depId = new Set()
+        this.user = options?.user
+    
         this.lazy = options?.lazy
         this.dirty = this.lazy
-        this.lazy ?  undefined : this.get()
+        this.value = this.lazy ? undefined : this.get()
     }
     get() {
-      
-       pushTarget(this)
-        let value =  this.getter.call(this.vm)
+
+        pushTarget(this)
+        let value = this.getter.call(this.vm)
         popTarget()
-        return  value
+        return value
     }
 
     addDep(dep) {
@@ -28,31 +36,34 @@ export class Watcher {
             this.depId.add(id)
             dep.addSub(this)
         }
-
+    
 
     }
     update() {
-        if(this.lazy){
-            this.dirty   = true
-        }else{
+        if (this.lazy) {
+            this.dirty = true
+        } else {
             queueWatcher(this)
         }
-      
-
     }
-    evaluate(){
- 
+    evaluate() {
+
         this.value = this.get()
         this.dirty = false
     }
-    depend(){
-            let i =  this.deps.length
-            while(i--){
-                this.deps[i].addWatch()
-            }
+    depend() {
+        let i = this.deps.length
+        while (i--) {
+            this.deps[i].addWatch()
+        }
     }
     run() {
-        this.get()
+
+        let oldValue = this.value
+        let newValue =  this.get()
+        if(this.user){          
+            this.cb.call(this.vm,newValue,oldValue)
+        }
     }
 }
 
@@ -95,9 +106,9 @@ function flueshCallBack() {
 }
 export function nextTick(cb) {
     callBackArr.push(cb)
-    if(!waiting){
+    if (!waiting) {
         Promise.resolve().then(flueshCallBack)
         waiting = true
     }
- 
+
 }
