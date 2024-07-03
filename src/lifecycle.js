@@ -8,6 +8,7 @@ export function initLifeCycle(Vue){
     Vue.prototype._update = function(vnode){
         const vm = this
         const  el = vm.$el
+        vm._vnode = vnode
         vm.$el  = patch(el,vnode) //把最新的虚拟doom赋值给元素
     }
   
