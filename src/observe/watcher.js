@@ -22,7 +22,7 @@ export class Watcher {
         this.value = this.lazy ? undefined : this.get()
     }
     get() {
-
+        console.log(this,'watch');
         pushTarget(this)
         let value = this.getter.call(this.vm)
         popTarget()
