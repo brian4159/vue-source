@@ -12,13 +12,11 @@ export function initMixin(Vue) { //vue实例的初始化方法
         vm.$options = options;//将用户传入的配置项赋值给this.$options，方便后续使用。
 
         //初始化状态
-   
 
         if (options.el) {
             
             vm.$mount(options.el)
         }
-        console.log(2);
         initState(vm)
     }
 

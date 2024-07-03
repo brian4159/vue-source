@@ -9,38 +9,21 @@
 
 <body>
     <div id="app">
-        <div style="color: red;">
-            {{myName}}
-        </div>
-
+    
     </div>
     <script src="vue.js"></script>
     <script>
-        const vm = new Vue({
-            data() {
-                return {
-                    name: 'wv',
-                    age: 20,
-                    address: {
-                        aaa: 'aa',
-                        bb: 'bb'
-                    },
-                    a: '王',
-                    b: '威'
-                }
-            },
-            computed:{
-                myName(){
-                    return this.a+this.b
-                }
-            }
-            // watch: {
-            //     'a': function (newVal, oldVal) {
-            //         console.log(newVal, oldVal);
-            //     }
-            // }
+        // Vue.component('test-component', {
+        //     template: '<div>全局component</div>'
+        // })
+        const vm = new Vue({})
+
+
+         let sub  =  Vue.extend({
+            template: '<div>局部component</div>',
         })
-        // vm.$mount('#app')
+
+        new sub().$mount('#app')
 
         
 
